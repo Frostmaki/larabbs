@@ -9,7 +9,6 @@
                 <i class="glyphicon glyphicon-edit"></i> 编辑个人资料
             </h4>
         </div>
-
         @include('common.error')
 
         <div class="panel-body">
