@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Api\UserRequest;
 use App\Models\User;
+use App\Transformers\UserTransformer;
 use Illuminate\Http\Request;
 
 
@@ -13,10 +14,9 @@ class UsersController extends Controller
     public function index(){
         return User::all();
     }
-    public function show($id){
+    public function me(){
 
-       $user= User::find($id);
-       return $this->response->array($user->toArray());
+       return $this->response->item($this->user(),new UserTransformer());
     }
 
     public function store(UserRequest $userRequest){

@@ -32,5 +32,29 @@ $api->version('v1', [
 
     //图片验证码
     $api->post('captchas','CaptchasController@store');
+
+    $api->group([
+        'middleware'    =>  'api.throttle',
+        'limit'     =>  config('api.rate_limits.access.limit'),
+        'expires'   =>  config('api.rate_limits.access.expires'),
+    ],function ($api){
+        //游客可以访问的接口
+        //生成Token
+        $api->post('authorizations','AuthorizationsController@store')
+            ->name('api.authorizations.store');
+        // 刷新token
+        $api->put('authorizations/current','AuthorizationsController@update')
+            ->name('api.authorizations.update');
+        //删除Token
+        $api->delete('authorizations/current','AuthorizationsController@destory')
+            ->name('api.authorizations.destroy');
+
+        //需要token验证的接口
+        $api->group(['middleware'=> 'api.auth'],function ($api){
+            //当前用户登录信息
+            $api->get('user','UsersController@me')
+                ->name('api.user.show');
+        });
+    });
 });
 
