@@ -13,6 +13,19 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+
+$api = app('Dingo\Api\Routing\Router');
+$api->version('v1', [
+    'namespace' => 'App\Http\Controllers\Api'
+], function($api) {
+    // 验证码
+    $api->post('VCode', 'VerificationCodesController@store');
+
+    $api->get('user','UsersController@index');
+    $api->get('user/{id}','UsersController@show');
+    $api->post('users','UsersController@store');
 });
+
