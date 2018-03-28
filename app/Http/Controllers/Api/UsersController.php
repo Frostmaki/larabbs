@@ -6,6 +6,7 @@ use App\Http\Requests\Api\UserRequest;
 use App\Models\User;
 use App\Transformers\UserTransformer;
 use Illuminate\Http\Request;
+use Auth;
 
 
 class UsersController extends Controller
@@ -14,11 +15,14 @@ class UsersController extends Controller
     public function index(){
         return User::all();
     }
+
+    //当前登录用户信息
     public function me(){
 
-       return $this->response->item($this->user(),new UserTransformer());
+       return $this->response->item(Auth::guard('api')->user(),new UserTransformer());
     }
 
+    //注册
     public function store(UserRequest $userRequest){
 
         $capthcha=\Cache::get($userRequest->captcha_key);
@@ -41,7 +45,13 @@ class UsersController extends Controller
 
         \Cache::forget($userRequest->captcha_key);
 
-        return $this->response->created();
+        return $this->response->item($user, new UserTransformer())
+            ->setMeta([
+                'access_token' => Auth::guard('api')->fromUser($user),
+                'token_type' => 'Bearer',
+                'expires_in' => Auth::guard('api')->factory()->getTTL() * 60
+            ])
+            ->setStatusCode(201);
     }
 
 }
