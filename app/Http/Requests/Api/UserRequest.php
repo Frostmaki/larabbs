@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api;
 
 use Dingo\Api\Http\FormRequest;
+use Auth;
 
 class UserRequest extends FormRequest
 {
@@ -23,15 +24,32 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-            'name'          =>'required|unique:users|string|max:20',
-            'email'         =>'required|email|unique:users',
-            'password'     =>'required|min:6|string',
-            'captcha_key'       =>'required|string',
-            'captcha_code'       =>'required|string',
+        switch ($this->method()){
+            case 'POST' :
+                return [
+                    //
+                    'name'          =>'required|unique:users|string|max:20',
+                    'email'         =>'required|email|unique:users',
+                    'password'     =>'required|min:6|string',
+                    'captcha_key'       =>'required|string',
+                    'captcha_code'       =>'required|string',
 
-        ];
+                ];
+
+                break;
+            case 'PATCH'  :
+                $userId = Auth::guard('api')->id();
+                return [
+                    'name' => 'between:3,25|regex:/^[A-Za-z0-9\-\_]+$/|unique:users,name,' .$userId,
+                    'email' => 'email',
+                    'introduction' => 'max:80',
+                    'avatar_image_id' => 'exists:images,id,type,avatar,user_id,'.$userId,
+                ];
+
+                break;
+
+        }
+
     }
     public function messages()
     {
