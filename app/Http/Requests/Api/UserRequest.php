@@ -27,7 +27,9 @@ class UserRequest extends FormRequest
             //
             'name'          =>'required|unique:users|string|max:20',
             'email'         =>'required|email|unique:users',
-            'password'     =>'required|min:6|string'
+            'password'     =>'required|min:6|string',
+            'captcha_key'       =>'required|string',
+            'captcha_code'       =>'required|string',
 
         ];
     }
@@ -39,6 +41,7 @@ class UserRequest extends FormRequest
             'name.required'    =>'用户名不可为空',
             'email.required'    =>'邮箱不可为空',
             'password.required'    =>'密码不可为空',
+            'captcha_code.required'    =>'验证码不可为空',
             'name.max'    =>'用户名不可超过20字符',
             'password.min'  =>'密码最少6位'
         ];

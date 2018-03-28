@@ -26,6 +26,11 @@ $api->version('v1', [
 
     $api->get('user','UsersController@index');
     $api->get('user/{id}','UsersController@show');
+
+    //用户注册
     $api->post('users','UsersController@store');
+
+    //图片验证码
+    $api->post('captchas','CaptchasController@store');
 });
 
