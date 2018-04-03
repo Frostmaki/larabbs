@@ -24,8 +24,8 @@ $api->version('v1', [
     // 验证码
     $api->post('VCode', 'VerificationCodesController@store');
 
-    $api->get('user','UsersController@index');
-    $api->get('user/{id}','UsersController@show');
+   // $api->get('user','UsersController@index');
+    //$api->get('user/{id}','UsersController@show');
 
     //用户注册
     $api->post('users','UsersController@store');
@@ -48,6 +48,11 @@ $api->version('v1', [
         //删除Token
         $api->delete('authorizations/current','AuthorizationsController@destory')
             ->name('api.authorizations.destroy');
+
+
+
+
+
 
         //需要token验证的接口
         $api->group(['middleware'=> 'api.auth'],function ($api){

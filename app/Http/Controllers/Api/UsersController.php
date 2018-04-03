@@ -14,7 +14,7 @@ class UsersController extends Controller
 {
     //
     public function index(){
-        return User::all();
+        return $this->response->array(User::all());
     }
 
     //当前登录用户信息

@@ -26,6 +26,7 @@ class CaptchasController extends Controller
             'Captcha_key'=>$key,
             'expired_at'=>$expiredAt->toDateTimeString(),
             'Captcha_image_content'=>$captcha->inline(),
+            'code'=>$captcha->getPhrase(),
         ];
 
         return $this->response->array($result)->setStatusCode(201);
