@@ -24,8 +24,6 @@ $api->version('v1', [
     // 验证码
     $api->post('VCode', 'VerificationCodesController@store');
 
-   // $api->get('user','UsersController@index');
-    //$api->get('user/{id}','UsersController@show');
 
     //用户注册
     $api->post('users','UsersController@store');
@@ -49,11 +47,21 @@ $api->version('v1', [
         $api->delete('authorizations/current','AuthorizationsController@destory')
             ->name('api.authorizations.destroy');
 
+        //分类列表
+        $api->get('categories','CategoriesController@index')
+            ->name('api.category.index');
+
+        //帖子列表
+        $api->get('topics','TopicsController@index')
+            ->name('api.topics.index');
+
+        //帖子详情
+        $api->get('topics/{topic}', 'TopicsController@show')
+            ->name('api.topics.show');
 
 
 
-
-
+//<!-----------------------------------------------------------------------------------------!-->
         //需要token验证的接口
         $api->group(['middleware'=> 'api.auth'],function ($api){
             //当前用户登录信息
