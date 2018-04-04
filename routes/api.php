@@ -56,7 +56,7 @@ $api->version('v1', [
             ->name('api.topics.index');
 
         //帖子详情
-        $api->get('topics/{topic}', 'TopicsController@show')
+        $api->get('topics/{id}', 'TopicsController@show')
             ->name('api.topics.show');
 
 
@@ -75,6 +75,14 @@ $api->version('v1', [
             // 编辑登录用户信息
             $api->patch('user', 'UsersController@update')
                 ->name('api.user.update');
+
+            //创建帖子
+            $api->post('topic','TopicsController@store')
+                ->name('api.topics.store');
+
+            //修改帖子
+            $api->patch('topics/{id}','TopicsController@update')
+                ->name('api.topics.update');
         });
     });
 });

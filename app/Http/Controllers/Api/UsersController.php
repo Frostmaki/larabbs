@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Transformers\UserTransformer;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\Input;
 
 
 class UsersController extends Controller
@@ -58,6 +59,8 @@ class UsersController extends Controller
 
     public function update(UserRequest $request)
     {
+        $data = Input::all();
+        return $this->response->array($data);
         $user = $this->user();
 
         $attributes = $request->only(['name', 'email', 'introduction']);
