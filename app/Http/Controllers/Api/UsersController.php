@@ -59,8 +59,8 @@ class UsersController extends Controller
 
     public function update(UserRequest $request)
     {
-        $data = Input::all();
-        return $this->response->array($data);
+        //$data = Input::all();
+        //return $this->response->array($data);
         $user = $this->user();
 
         $attributes = $request->only(['name', 'email', 'introduction']);

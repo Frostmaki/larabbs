@@ -19,7 +19,8 @@ use Illuminate\Http\Request;
 
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', [
-    'namespace' => 'App\Http\Controllers\Api'
+    'namespace' => 'App\Http\Controllers\Api',
+     'middleware' => 'serializer:array'
 ], function($api) {
     // 验证码
     $api->post('VCode', 'VerificationCodesController@store');
@@ -83,6 +84,14 @@ $api->version('v1', [
             //修改帖子
             $api->patch('topics/{id}','TopicsController@update')
                 ->name('api.topics.update');
+
+            //删除帖子
+            $api->delete('topics/{id}', 'TopicsController@destroy')
+                ->name('api.topics.destroy');
+
+            // 发布回复
+            $api->post('topics/{topic}/replies', 'RepliesController@store')
+                ->name('api.topics.replies.store');
         });
     });
 });
